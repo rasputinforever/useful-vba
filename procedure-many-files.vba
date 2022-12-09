@@ -30,13 +30,13 @@ For Each cell In Sheets("Name of Sheet where your range is located").Range("Rang
     Debug.Print "Processing this file: " & cell.Value2
     Set tWb = Workbooks.Open(cell.Value2) ' This is the target sheet filepath
     Set sWb = Workbooks.Open("Your Source Here") ' Alternatively, you can just set this to tWb
-    Set tSht = wb.Sheets("Target Sheet Name Here")
-    Set sSht = wb.Sheets("Source Sheet Here")
-    Set tRng = sht.Range("Target Range Here")
-    Set sRng = sht.Range("Source Range Here")
+    Set tSht = tWb.Sheets("Target Sheet Name Here")
+    Set sSht = sWb.Sheets("Source Sheet Here")
+    Set tRng = tSht.Range("Target Range Here")
+    Set sRng = sSht.Range("Source Range Here")
     
     ' unprotect if necessary
-    sht.Unprotect "password"
+    tSht.Unprotect "password"
       
       ' ===YOUR DESIRED ACTIONS START HERE===
       
@@ -47,11 +47,12 @@ For Each cell In Sheets("Name of Sheet where your range is located").Range("Rang
       ' ===YOUR DESIRED ACTIONS END HERE===
       
     ' reprotect if necessary
-    sht.Protect "password"
+    tSht.Protect "password"
    
    ' close and save
-    wb.Close SaveChanges:=True
-
+    tWb.Close SaveChanges:=True
+    ' close but don't save. Remove this line if sWb = tWb. Move it to EndSub if using single point of source
+    sWb.Close SaveChanges:=False
 
 SkipCell:
 
